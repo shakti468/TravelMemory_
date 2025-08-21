@@ -121,12 +121,15 @@ terraform apply    # Provisioned infrastructure
 
 ---
 ### Screenshot
-<img width="762" height="288" alt="image" src="https://github.com/user-attachments/assets/88a06d4b-9c83-4a40-be68-71d0fecef615" />
+<img width="822" height="557" alt="image" src="https://github.com/user-attachments/assets/fd73e4ad-b41b-4646-b5a0-1b61d1d1aa03" />
+
 
 
 ### Screenshots of instances running state 
-<img width="1386" height="710" alt="image" src="https://github.com/user-attachments/assets/f34cbcd3-29dd-49a2-9c0f-532cbd0e90c5" />
-<img width="1337" height="597" alt="image" src="https://github.com/user-attachments/assets/62481d5e-e461-4b14-bc78-158733e5d06c" />
+<img width="1040" height="743" alt="image" src="https://github.com/user-attachments/assets/4239c772-7c07-45a7-9fdf-1be0ce206cf7" />
+
+<img width="1023" height="776" alt="image" src="https://github.com/user-attachments/assets/c14b5954-6538-43db-af97-4a96d954759e" />
+
 
 
 
