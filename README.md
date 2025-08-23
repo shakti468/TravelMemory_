@@ -134,16 +134,54 @@ terraform apply    # Provisioned infrastructure
 
 
 
+# Phase 2: Configuration Management with Ansible
 
-## 🚀 Next Steps (Phase 2)
-In the next phase, we will configure the servers using **Ansible**:
-- Setup Node.js, NPM, MongoDB
-- Clone the MERN app repo
-- Install dependencies
-- Configure `.env` files
-- Start the application services
+## Installed Ansible
+```bash
+sudo apt update
+sudo apt install python3 python3-pip -y
+pip3 install ansible
+```
+## Verified installation
+```bash
+ansible --version
+```
+## Created Ansible Project Structure
 
----
+```bash
+ansible/
+├── inventory.ini
+├── playbook-web.yml
+├── playbook-db.yml
+├── roles/
+│   ├── web/
+│   │   └── tasks/main.yml
+│   └── db/
+│       └── tasks/main.yml
 
-📌 **Note:** Replace placeholders (`<YOUR_AMI_ID>`, `<YOUR_SUBNET_ID>`, `<YOUR_VPN_ID>`, `<YOUR_S3_BUCKET_NAME>`) before running Terraform.
+```
 
+## Created Ansible Inventory File
+### inventory.ini
+```bash
+[web]
+<WEB_SERVER_PUBLIC_IP> ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/Shakti-b10.pem
+
+[db]
+<DB_SERVER_PUBLIC_IP> ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/Shakti-b10.pem
+```
+
+### Fixed Key Permissions
+```bash
+chmod 400 ~/.ssh/Shakti-b10.pem
+```
+
+## Verified Ansible Connectivity
+```bash
+ansible -i inventory.ini all -m ping
+```
+
+### Screenshots
+<img width="1447" height="491" alt="image" src="https://github.com/user-attachments/assets/7f444187-ab2c-4bec-a798-4a8071291207" />
+
+-------
