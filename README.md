@@ -185,3 +185,43 @@ ansible -i inventory.ini all -m ping
 <img width="1447" height="491" alt="image" src="https://github.com/user-attachments/assets/7f444187-ab2c-4bec-a798-4a8071291207" />
 
 -------
+
+
+# Running the Playbooks
+## Run DB setup:
+```bash
+ansible-playbook -i inventory.ini playbook-db.yml
+```
+### Screenshot
+<img width="1066" height="561" alt="image" src="https://github.com/user-attachments/assets/d58d55e1-98c1-4162-a3c6-4a84eb0b3982" />
+
+---
+## Run Web setup:
+```bash
+ansible-playbook -i inventory.ini playbook-web.yml
+
+```
+
+### Screenshot:
+
+<img width="1083" height="831" alt="image" src="https://github.com/user-attachments/assets/f3722eaa-32d2-4055-b71d-53146a9a0dc5" />
+
+
+------
+
+## Web Server
+
+- Backend running with PM2 on http://<WEB_SERVER_PUBLIC_IP>:3001
+
+- Frontend running with PM2 on http://<WEB_SERVER_PUBLIC_IP>:3000
+
+### Screenshots
+
+<img width="836" height="662" alt="image" src="https://github.com/user-attachments/assets/cbabd97e-1881-4d0a-ab3b-f9de5a8e3711" />
+
+<img width="1242" height="836" alt="image" src="https://github.com/user-attachments/assets/e816f367-c1fb-421b-a013-ed2413b23837" />
+
+<img width="1481" height="945" alt="image" src="https://github.com/user-attachments/assets/0675cc28-86bb-4d1b-95bd-7cbe805f0e11" />
+
+
+  
