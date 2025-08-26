@@ -223,5 +223,76 @@ ansible-playbook -i inventory.ini playbook-web.yml
 
 <img width="1481" height="945" alt="image" src="https://github.com/user-attachments/assets/0675cc28-86bb-4d1b-95bd-7cbe805f0e11" />
 
+# MERN Application Deployment on AWS 
 
+## 📌 Project Overview
+In **Phase 3**, we add **monitoring and observability** to our MERN application using:
+- **Prometheus** → Metrics collection
+- **MongoDB Exporter** → Database metrics
+- **Grafana** → Dashboards & Alerts
+
+This ensures our application is **production-ready**, with full visibility into performance and errors.
+
+---
+
+## ✅ Steps Completed
+
+### 1. Prometheus Setup (Web Server)
+- Installed Prometheus using Ansible (`monitoring.yml`).
+- Configured targets:
+  - `http://<WEB_SERVER_PUBLIC_IP>:3001/metrics` → Node.js backend metrics
+  - `http://<DB_SERVER_PRIVATE_IP>:9216/metrics` → MongoDB Exporter metrics
+
+### Screenshots 
+<img width="1216" height="793" alt="Screenshot 2025-08-26 160722" src="https://github.com/user-attachments/assets/fac6faed-a3c3-4b2e-8f92-cebf935fe9ec" />
+
+## Prometheus UI available at http://<WEB_SERVER_PUBLIC_IP>:9090
+
+## Node.js Backend Metrics
+- Added prom-client in backend:
+
+- API Latency (http_request_duration_ms)
+
+- Error Rate (http_errors_total)
+
+- Request Count (http_requests_total)
+
+- Exposed /metrics endpoint.
+
+## curl http://<WEB_SERVER_PUBLIC_IP>:3001/metrics
+<img width="1216" height="793" alt="Screenshot 2025-08-26 160722" src="https://github.com/user-attachments/assets/fac6faed-a3c3-4b2e-8f92-cebf935fe9ec" />
   
+## MongoDB Exporter (DB Server)
+
+- Installed MongoDB Exporter with Ansible (monitoring.yml).
+
+- Runs on 9216.
+
+Verification:
+```bash
+curl http://<DB_SERVER_PRIVATE_IP>:9216/metrics
+```
+
+##  Grafana Setup (Web Server)
+
+- Installed Grafana with Ansible (grafana.yml).
+
+- Accessible at http://<WEB_SERVER_PUBLIC_IP>:3000 (default: admin/admin).
+
+- Added Prometheus (http://localhost:9090) as a Data Source.
+
+- Created dashboards for:
+
+- Custom Node.js metrics
+
+- MongoDB performance
+
+## Alerts & Anomaly Detection
+
+- Configured Grafana Alert Rules for:
+
+- High Error Rates (http_errors_total)
+
+- Slow API Responses (http_request_duration_ms > 500ms)
+
+- MongoDB Performance Issues (connections / memory)
