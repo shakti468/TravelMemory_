@@ -1,0 +1,45 @@
+---
+- name: Download Prometheus
+  get_url:
+    url: https://github.com/prometheus/prometheus/releases/download/v2.54.1/prometheus-2.54.1.linux-amd64.tar.gz
+    dest: /tmp/prometheus.tar.gz
+
+- name: Extract Prometheus
+  unarchive:
+    src: /tmp/prometheus.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: Move Prometheus binary
+  copy:
+    src: /opt/prometheus-2.54.1.linux-amd64/prometheus
+    dest: /usr/local/bin/prometheus
+    mode: '0755'
+    remote_src: yes
+
+- name: Move Promtool binary
+  copy:
+    src: /opt/prometheus-2.54.1.linux-amd64/promtool
+    dest: /usr/local/bin/promtool
+    mode: '0755'
+    remote_src: yes
+
+- name: Create Prometheus config
+  copy:
+    dest: /etc/prometheus.yml
+    content: |
+      global:
+        scrape_interval: 15s
+      scrape_configs:
+        - job_name: 'nodejs_backend'
+          static_configs:
+            - targets: ['localhost:3001']
+        - job_name: 'mongodb_exporter'
+          static_configs:
+            - targets: ['<DB_SERVER_PRIVATE_IP>:9216']
+
+- name: Run Prometheus with PM2
+  shell: |
+    pm2 delete prometheus || true
+    pm2 start prometheus -- --config.file=/etc/prometheus.yml
+    pm2 save

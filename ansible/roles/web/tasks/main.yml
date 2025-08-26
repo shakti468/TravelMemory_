@@ -1,0 +1,80 @@
+---
+- name: Update apt repo
+  apt:
+    update_cache: yes
+
+- name: Install Node.js, npm, git
+  apt:
+    name: [nodejs, npm, git]
+    state: present
+
+- name: Ensure repo directory ownership belongs to ubuntu
+  file:
+    path: /home/ubuntu/travelmemory
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes
+
+- name: Clone MERN app repo
+  git:
+    repo: "https://github.com/shakti468/TravelMemory_.git"
+    dest: "/home/ubuntu/travelmemory"
+    version: main
+    force: yes
+
+- name: Fix ownership after clone
+  file:
+    path: /home/ubuntu/travelmemory
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes
+
+- name: Install backend dependencies
+  npm:
+    path: /home/ubuntu/travelmemory/backend
+    production: no
+
+- name: Install frontend dependencies
+  npm:
+    path: /home/ubuntu/travelmemory/frontend
+    production: no
+
+- name: Create .env for backend
+  copy:
+    dest: /home/ubuntu/travelmemory/backend/.env
+    content: |
+      MONGO_URI="mongodb://172.31.72.27:27017/travelmemory"
+      PORT=3001
+
+- name: Create .env for frontend
+  copy:
+    dest: /home/ubuntu/travelmemory/frontend/.env
+    content: |
+      REACT_APP_BACKEND_URL=http://3.108.223.169:3001
+
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
+    state: present
+
+- name: Start backend with PM2
+  shell: |
+    cd /home/ubuntu/travelmemory/backend
+    pm2 delete backend || true
+    pm2 start index.js --name backend
+    pm2 save
+    pm2 startup systemd -u ubuntu --hp /home/ubuntu
+
+- name: Build React frontend
+  shell: |
+    cd /home/ubuntu/travelmemory/frontend
+    npm run build
+
+- name: Serve React frontend with PM2
+  shell: |
+    cd /home/ubuntu/travelmemory/frontend
+    pm2 delete frontend || true
+    pm2 serve build 3000 --name frontend --spa
+    pm2 save
+    pm2 startup systemd -u ubuntu --hp /home/ubuntu

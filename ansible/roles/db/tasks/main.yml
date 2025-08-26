@@ -1,0 +1,41 @@
+---
+- name: Update apt repo
+  apt:
+    update_cache: yes
+
+- name: Import MongoDB public GPG Key
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-6.0.asc
+    state: present
+
+- name: Add MongoDB APT repository
+  apt_repository:
+    repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse"
+    state: present
+    filename: mongodb-org-6.0
+
+- name: Update apt repo again
+  apt:
+    update_cache: yes
+
+- name: Install MongoDB
+  apt:
+    name: mongodb-org
+    state: present
+
+- name: Start and enable MongoDB service
+  service:
+    name: mongod
+    state: started
+    enabled: yes
+
+- name: Allow MongoDB remote access
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: '^ *bindIp:'
+    line: '  bindIp: 0.0.0.0'
+
+- name: Restart MongoDB
+  service:
+    name: mongod
+    state: restarted

@@ -1,0 +1,6 @@
+---
+- hosts: web
+  become: yes
+  roles:
+    - { role: web, tasks_from: monitoring }
+    - { role: web, tasks_from: grafana }

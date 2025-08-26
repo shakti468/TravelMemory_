@@ -1,0 +1,11 @@
+---
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present
+
+- name: Enable and start Grafana
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
